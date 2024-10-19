@@ -1,0 +1,63 @@
+# Warp Launch Configuration
+#
+#
+# Use this to start a certain configuration of windows, tabs, and panes.
+# Open the launch configuration palette to access and open any launch configuration.
+#
+# This file defines your launch configuration.
+# More on how to do so here:
+# https://docs.warp.dev/features/session-management/launch-configurations
+#
+# All launch configurations are stored under ~/.warp/launch_configurations.
+# Edit them anytime!
+#
+# You can also add commands that run on-start for your launch configurations like so:
+# ---
+# name: Example with Command
+# windows:
+#  - tabs:
+#      - layout:
+#          cwd: /Users/warp-user/project
+#          commands:
+#            - exec: code .
+
+---
+name: Opshealth-servers
+windows:
+  - tabs:
+      - title: backend
+        layout:
+          cwd: /Users/jaimish/Work/backend
+          commands:
+            - exec: make up
+        color: red
+      - title: agentserver
+        layout:
+          cwd: /Users/jaimish/Work/agentserver
+          commands:
+            - exec: make up
+        color: green
+      - title: statuspage
+        layout:
+          cwd: /Users/jaimish/Work/statuspage
+          commands:
+            - exec: npm run dev
+        color: yellow
+      - title: frontend
+        layout:
+          cwd: /Users/jaimish/Work/frontend
+          commands:
+            - exec: npm run dev
+        color: blue
+      - title: minerva-agent
+        layout:
+          cwd: /Users/jaimish/Work/minerva-agent
+          commands:
+            - exec: make run
+        color: magenta
+      - title: metrics-server
+        layout:
+          cwd: /Users/jaimish/Work/metrics-server
+          commands:
+            - exec: make run
+        color: cyan
