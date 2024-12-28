@@ -1,0 +1,9 @@
+{
+    "promptCellConfig": {
+        "autoClosingBrackets": true,
+        "highlightActiveLine": true,
+        "lineNumbers": false
+    },
+    "interactionMode": "notebook",
+    "showAllKernelActivity": false
+}

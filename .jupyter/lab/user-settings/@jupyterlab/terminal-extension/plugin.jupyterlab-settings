@@ -1,0 +1,13 @@
+{
+    "theme": "dark",
+    "fontFamily": "monospace",
+    "fontSize": 13,
+    "lineHeight": 1,
+    "screenReaderMode": false,
+    "scrollback": 1000,
+    "shutdownOnClose": false,
+    "closeOnExit": true,
+    "pasteWithCtrlV": true,
+    "macOptionIsMeta": true,
+    "cursorBlink": true
+}
