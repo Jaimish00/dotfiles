@@ -129,15 +129,20 @@ alias srczsh="exec zsh"
 alias ohmyzsh="sudo subl ~/.oh-my-zsh"
 alias cls="clear"
 
-alias ls='colorls -A --sd'
-alias sudo-ls='sudo colorls -A --sd'
+# Next level of an ls
+
+# Using colorls
+# alias ls='colorls -A --sd'
+# alias sudo-ls='sudo colorls -A --sd'
+
+# Using eza
+alias ls="eza --no-filesize --long --color=always --icons=always --no-user"
 
 ############ Git aliases ###################
 alias gplo="git pull origin"
 alias checkout-development="gco development && gpodt"
 alias checkout-develop="gco develop && gpodp"
 alias galias="alias | grep git"
-
 
 # eval $(thefuck --alias)
 
@@ -150,7 +155,71 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
+# Starship
 eval "$(starship init zsh)"
 
 PATH=~/.console-ninja/.bin:$PATH
 eval "$(atuin init zsh)"
+
+# NOTE: Zoxide
+eval "$(zoxide init zsh)"
+
+# NOTE: FZF
+# Set up fzf key bindings and fuzzy completion
+eval "$(fzf --zsh)"
+
+export FZF_DEFAULT_COMMAND="fd --hidden --strip-cwd-prefix --exclude .git "
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_ALT_C_COMMAND="fd --type=d --hidden --strip-cwd-prefix --exclude .git"
+
+export FZF_DEFAULT_OPTS="--height 50% --layout=default --border --color=hl:#2dd4bf"
+
+
+# Setup fzf previews
+export FZF_CTRL_T_OPTS="--preview 'bat --color=always -n --line-range :500 {}'"
+export FZF_ALT_C_OPTS="--preview 'eza --icons=always --tree --color=always {} | head -200'"
+
+_fzf_comprun() {
+  local command=$1
+  shift
+
+  case "$command" in
+    cd)           fzf "$@" --preview 'tree -C {} | head -200' ;;
+    export|unset) fzf --preview "eval 'echo \$'{}"         "$@" ;;
+    ssh)          fzf --preview 'dig {}'                   "$@" ;;
+    *)            fzf --preview 'bat -n --color=always {}' "$@" ;;
+  esac
+}
+
+# ? Superfile - cd on quit script
+# spf() {
+#     os=$(uname -s)
+
+#     # Linux
+#     if [[ "$os" == "Linux" ]]; then
+#         export SPF_LAST_DIR="${XDG_STATE_HOME:-$HOME/.local/state}/superfile/lastdir"
+#     fi
+
+#     # macOS
+#     if [[ "$os" == "Darwin" ]]; then
+#         export SPF_LAST_DIR="$HOME/Library/Application Support/superfile/lastdir"
+#     fi
+
+#     command spf "$@"
+
+#     [ ! -f "$SPF_LAST_DIR" ] || {
+#         . "$SPF_LAST_DIR"
+#         rm -f -- "$SPF_LAST_DIR" > /dev/null
+#     }
+# }
+
+
+# ? ZSH Completions
+# if type brew &>/dev/null; then
+#  FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
+
+#  autoload -Uz compinit
+#  compinit
+# fi
+
+
