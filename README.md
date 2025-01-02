@@ -4,13 +4,13 @@ This is a collection of dotfiles for various use cases.
 
 #### Configurations
 
-- `.zshrc` : zsh configuration
-- `.config/atuin` : Atuin configuration
-- `.config/starship.toml` : Starship configuration
-- `.jupyter` : Jupyter configuration
-- `.warp` : Warp configuration
-- `Library/Application \Support/superfile` : Superfile configuration
-- `Pictures`: Cool Wallpapers
+- `zsh` : zsh configuration
+- `atuin` : Atuin configuration
+- `starship.toml` : Starship configuration
+- `jupyter` : Jupyter configuration
+- `warp` : Warp configuration
+- `superfile` : Superfile configuration
+- `wallpapers`: Favorite wallpapers
 
 #### Setup
 
@@ -30,7 +30,7 @@ brew install stow  # for macOS
 
 ```
 cd ~/dotfiles
-stow .config
+stow zsh  # syncing zsh configuration
 ```
 
 4. Now you can edit the files in the cloned repo and they will be stowed back
@@ -39,12 +39,12 @@ stow .config
 
 ```
 cd ~/dotfiles
-stow -D .config
+stow -D zsh  # removing zsh configuration from stow tracking
 ```
 
 6. To stow a new set of files, run this command
 
 ```
-# copy your files to ~/dotfiles with the same structure
+# Adding symlinks to stow tracking your dotfiles
 stow --adopt .
 ```
