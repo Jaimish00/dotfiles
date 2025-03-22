@@ -8,7 +8,7 @@ export ZSH="$HOME/.oh-my-zsh"
 # load a random theme each time Oh My Zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="ultima"
+# ZSH_THEME="ultima"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -123,11 +123,12 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-alias zshconfig="sudo subl ~/.zshrc"
-alias sshconfig="sudo subl ~/.ssh/config"
+alias zshconfig="sudo nvim ~/.zshrc"
+alias sshconfig="sudo nvim ~/.ssh/config"
 alias srczsh="exec zsh"
-alias ohmyzsh="sudo subl ~/.oh-my-zsh"
+alias ohmyzsh="sudo nvim ~/.oh-my-zsh"
 alias cls="clear"
+alias n="nvim"
 
 # Next level of an ls
 
@@ -138,11 +139,22 @@ alias cls="clear"
 # Using eza
 alias ls="eza --no-filesize --long --color=always --icons=always --no-user"
 
+############ Lazy aliases ################### 
+alias lzd='lazydocker'
+alias lzg='lazygit'
+alias lzs='lazysql'
+
 ############ Git aliases ###################
 alias gplo="git pull origin"
 alias checkout-development="gco development && gpodt"
 alias checkout-develop="gco develop && gpodp"
 alias galias="alias | grep git"
+
+############ OpsHealth #####################
+alias reset-ops="make reset-migrate && make down && make up && sleep 10 && curl --location --request POST 'http://localhost:3567/recipe/dashboard/user' \
+--header 'rid: dashboard' \
+--header 'Content-Type: application/json' \
+--data-raw '{"email": "jaimish+admin@opshealth.io","password": "local123"}'"
 
 # eval $(thefuck --alias)
 
@@ -191,6 +203,12 @@ _fzf_comprun() {
   esac
 }
 
+export EDITOR='nvim'
+export VISUAL='nvim'
+
+# Tre command - Improved tree
+tre() { command tre "$@" -e && source "/tmp/tre_aliases_$USER" 2>/dev/null; }
+
 # ? Superfile - cd on quit script
 # spf() {
 #     os=$(uname -s)
@@ -223,3 +241,9 @@ _fzf_comprun() {
 # fi
 
 
+
+# Created by `pipx` on 2025-01-13 09:53:02
+export PATH="$PATH:/Users/jaimish/.local/bin"
+
+# Auto-Warpify
+printf 'P$f{"hook": "SourcedRcFileForWarp", "value": { "shell": "bash", "uname": "Darwin" }}œ' 
