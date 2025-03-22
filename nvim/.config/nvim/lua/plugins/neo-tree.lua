@@ -1,0 +1,27 @@
+return {
+  -- "nvim-neo-tree/neo-tree.nvim",
+  -- branch = "v3.x",
+  -- event = "VeryLazy",
+  -- dependencies = {
+  --   "nvim-lua/plenary.nvim",
+  --   "nvim-tree/nvim-web-devicons",
+  --   "MunifTanjim/nui.nvim",
+  --   "3rd/image.nvim",
+  -- },
+  -- keys = {
+  --   { "\\", ":Neotree reveal right<CR>", desc = "NeoTree reveal", silent = true },
+  -- },
+  -- config = function()
+  --   vim.keymap.set("n", "<C-n>", ":Neotree filesystem reveal toggle right<CR>", {})
+  --   vim.keymap.set("n", "<leader>bf", ":Neotree buffers reveal toggle float<CR>", {})
+  -- end,
+  -- opts = {
+  --   filesystem = {
+  --     window = {
+  --       mappings = {
+  --         ["\\"] = "close_window",
+  --       },
+  --     },
+  --   },
+  -- },
+}
