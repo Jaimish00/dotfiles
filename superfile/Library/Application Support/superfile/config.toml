@@ -4,7 +4,7 @@
 theme = 'dracula'
 #
 # The editor files/directories will be opened with. (leave blank to use the EDITOR environment variable).
-editor = "code"
+editor = "nvim"
 #
 # Auto check for update
 auto_check_update = true

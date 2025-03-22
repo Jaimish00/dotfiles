@@ -1,5 +1,7 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
 format = """
-$username\
+\n$username\
 $hostname\
 $os\
 $directory\
@@ -16,6 +18,9 @@ $cmd_duration $jobs $time\
 $line_break\
 $character"""
 
+# Inserts a blank line between shell prompts
+add_newline = true
+
 [nodejs]
 format = "[$symbol($version )]($style)"
 
@@ -28,19 +33,27 @@ read_only = " "
 truncation_length = 4
 truncate_to_repo = false
 
+# [character]
+# success_symbol = "[❯](white)"
+# error_symbol = "[❯](red)"
+# vicmd_symbol = "[❮](green)"
 [character]
-success_symbol = "[❯](white)"
-error_symbol = "[❯](red)"
-vicmd_symbol = "[❮](green)"
+success_symbol = '[](bold green)'
+error_symbol = '[](bold red)'
+vimcmd_symbol = '[](bold purple)'
+vimcmd_replace_one_symbol = '[](bold yellow)'
+vimcmd_replace_symbol = '[](bold yellow)'
+vimcmd_visual_symbol = '[󰒅](bold red)'
 
 [git_branch]
-symbol = '🌱 '
+symbol = " "
 format = "[$symbol$branch]($style) "
 style = "bright-black"
 
 [python]
 format = '[${symbol}${pyenv_prefix}(${version} )(\($virtualenv\) )]($style)'
-symbol = "🐍 "
+symbol = " "
+# symbol = "🐍 "
 # Only use the `python3` binary to get the version.
 python_binary = 'python3'
 
@@ -61,6 +74,7 @@ disabled = true
 [cmd_duration]
 format = "[$duration]($style)"
 style = "white"
+min_time = 10_000  # Show command duration over 10,000 milliseconds (=10 sec)
 
 [memory_usage]
 symbol = " "
