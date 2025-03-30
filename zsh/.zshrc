@@ -132,6 +132,8 @@ alias reset-ops="make reset-migrate && make down && make up && sleep 10 && curl 
 --header 'Content-Type: application/json' \
 --data-raw '{"email": "jaimish+admin@opshealth.io","password": "local123"}'"
 
+alias start-servers="tmux kill-session -t servers && tmuxp load -s servers ~/.tmuxp/ops_servers.yaml"
+
 #-------------------------------------------------------------------------------
 # EXTERNAL TOOLS INTEGRATION
 #-------------------------------------------------------------------------------

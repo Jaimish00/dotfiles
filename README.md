@@ -12,6 +12,7 @@ This is a collection of dotfiles for various use cases.
 - `warp` : Warp configuration
 - `superfile` : Superfile configuration
 - `wallpapers`: Favorite wallpapers
+- `tmux`: Tmux Configuration
 
 
 #### Setup
@@ -55,17 +56,17 @@ stow --adopt .
 
 #### Stowing a new configuration
 
-1. We need to first replicate the directory structure, for example if nvim is in `.config/nvim` then we need to have `dotfiles/nvim/.config/nvim`
+1. We need to first replicate the directory structure, for example if tmux is in `.config/nvim` then we need to have `dotfiles/nvim/.config/nvim`
 
 ```bash
-cp ~/.config/nvim ~/dotfiles/nvim/.config/nvim
+mkdir -p ~/dotfiles/tmux/.config/tmux && mv ~/.config/tmux/* ~/dotfiles/tmux/.config/tmux
 ```
 
 2. Then inside dotfiles, just run this command
 
 ```bash
-stow nvim
+stow tmux
 
 # If you face conflict, try with --adopt flag
-# stow --adopt nvim
+# stow --adopt tmux
 ```
