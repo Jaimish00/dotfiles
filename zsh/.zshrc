@@ -1,196 +1,159 @@
-# If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
+#-------------------------------------------------------------------------------
+# OH-MY-ZSH CONFIGURATION
+#-------------------------------------------------------------------------------
 
-# Path to your Oh My Zsh installation.
+# Path configuration
+export PATH=$HOME/.local/bin:/usr/local/bin:$PATH
+
+# Oh My Zsh installation path
 export ZSH="$HOME/.oh-my-zsh"
 
-# Set name of the theme to load --- if set to "random", it will
-# load a random theme each time Oh My Zsh is loaded, in which case,
-# to know which specific one was loaded, run: echo $RANDOM_THEME
-# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
+# Theme configuration
+# Uncomment to use a specific theme or set to "random" for variety
 # ZSH_THEME="ultima"
-
-# Set list of themes to pick from when loading at random
-# Setting this variable when ZSH_THEME=random will cause zsh to load
-# a theme from this variable instead of looking in $ZSH/themes/
-# If set to an empty array, this variable will have no effect.
+# For random themes, you can specify candidates:
 # ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
 
-# Uncomment the following line to use case-sensitive completion.
+#-------------------------------------------------------------------------------
+# ZSH BEHAVIOR OPTIONS
+#-------------------------------------------------------------------------------
+
+# Uncomment to use case-sensitive completion
 # CASE_SENSITIVE="true"
 
-# Uncomment the following line to use hyphen-insensitive completion.
-# Case-sensitive completion must be off. _ and - will be interchangeable.
+# Uncomment for hyphen-insensitive completion (_ and - interchangeable)
 # HYPHEN_INSENSITIVE="true"
 
-# Uncomment one of the following lines to change the auto-update behavior
+# Update behavior configuration
 # zstyle ':omz:update' mode disabled  # disable automatic updates
 # zstyle ':omz:update' mode auto      # update automatically without asking
 # zstyle ':omz:update' mode reminder  # just remind me to update when it's time
+# zstyle ':omz:update' frequency 13   # update frequency in days
 
-# Uncomment the following line to change how often to auto-update (in days).
-# zstyle ':omz:update' frequency 13
+# Terminal behavior options
+# DISABLE_MAGIC_FUNCTIONS="true"      # fix pasting URLs
+# DISABLE_LS_COLORS="true"            # disable colors in ls
+# DISABLE_AUTO_TITLE="true"           # disable auto-setting terminal title
+# ENABLE_CORRECTION="true"            # enable command auto-correction
 
-# Uncomment the following line if pasting URLs and other text is messed up.
-# DISABLE_MAGIC_FUNCTIONS="true"
+# Completion waiting indicators
+# COMPLETION_WAITING_DOTS="true"      # show red dots while waiting
+# Can also use custom string: COMPLETION_WAITING_DOTS="%F{yellow}waiting...%f"
 
-# Uncomment the following line to disable colors in ls.
-# DISABLE_LS_COLORS="true"
+# Repository status options
+# DISABLE_UNTRACKED_FILES_DIRTY="true"  # faster status check for large repos
 
-# Uncomment the following line to disable auto-setting terminal title.
-# DISABLE_AUTO_TITLE="true"
-
-# Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
-
-# Uncomment the following line to display red dots whilst waiting for completion.
-# You can also set it to another string to have that shown instead of the default red dots.
-# e.g. COMPLETION_WAITING_DOTS="%F{yellow}waiting...%f"
-# Caution: this setting can cause issues with multiline prompts in zsh < 5.7.1 (see #5765)
-# COMPLETION_WAITING_DOTS="true"
-
-# Uncomment the following line if you want to disable marking untracked files
-# under VCS as dirty. This makes repository status check for large repositories
-# much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
-
-# Uncomment the following line if you want to change the command execution time
-# stamp shown in the history command output.
-# You can set one of the optional three formats:
-# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-# or set a custom format using the strftime function format specifications,
-# see 'man strftime' for details.
+# History timestamp format
+# HIST_STAMPS="mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd" or custom strftime format
 # HIST_STAMPS="mm/dd/yyyy"
 
-# Would you like to use another custom folder than $ZSH/custom?
+# Custom directory for Oh My Zsh
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
-# Which plugins would you like to load?
-# Standard plugins can be found in $ZSH/plugins/
-# Custom plugins may be added to $ZSH_CUSTOM/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
+#-------------------------------------------------------------------------------
+# PLUGINS
+#-------------------------------------------------------------------------------
+
 plugins=(
-	# auto
+	# Core functionality
 	git
 	python
-	zsh-autosuggestions
-	zsh-syntax-highlighting
-	zsh-interactive-cd
 	sudo
 	history
 	dirhistory
-	bgnotify
 	systemd
-	wd
 	command-not-found
 	common-aliases
-	you-should-use
 	z
+	
+	# Navigation and file management
+	zsh-interactive-cd
+	wd
 	k
 	copyfile
 	copybuffer
+	
+	# Notifications and suggestions
+	bgnotify
+	zsh-autosuggestions
+	zsh-syntax-highlighting
+	you-should-use
 )
 
 source $ZSH/oh-my-zsh.sh
 
-# User configuration
+#-------------------------------------------------------------------------------
+# COMMAND EXECUTION TIME
+#-------------------------------------------------------------------------------
 
-# export MANPATH="/usr/local/man:$MANPATH"
+ZSH_COMMAND_TIME_MSG="Execution time: %s sec"
+ZSH_COMMAND_TIME_COLOR="yellow"
 
-# You may need to manually set your language environment
-# export LANG=en_US.UTF-8
+#-------------------------------------------------------------------------------
+# EDITOR CONFIGURATION
+#-------------------------------------------------------------------------------
 
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
+export EDITOR='nvim'
+export VISUAL='nvim'
 
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
+#-------------------------------------------------------------------------------
+# ALIASES
+#-------------------------------------------------------------------------------
 
-# Set personal aliases, overriding those provided by Oh My Zsh libs,
-# plugins, and themes. Aliases can be placed here, though Oh My Zsh
-# users are encouraged to define aliases within a top-level file in
-# the $ZSH_CUSTOM folder, with .zsh extension. Examples:
-# - $ZSH_CUSTOM/aliases.zsh
-# - $ZSH_CUSTOM/macos.zsh
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-
+# Configuration shortcuts
 alias zshconfig="sudo nvim ~/.zshrc"
 alias sshconfig="sudo nvim ~/.ssh/config"
+alias tmuxconfig="nvim ~/.config/tmux/tmux.conf"
 alias srczsh="exec zsh"
 alias ohmyzsh="sudo nvim ~/.oh-my-zsh"
 alias cls="clear"
 alias n="nvim"
 
-# Next level of an ls
-
-# Using colorls
+# File listing (using eza with enhanced formatting)
+alias ls="eza --no-filesize --long --color=always --icons=always --no-user"
+# Alternative: Using colorls
 # alias ls='colorls -A --sd'
 # alias sudo-ls='sudo colorls -A --sd'
 
-# Using eza
-alias ls="eza --no-filesize --long --color=always --icons=always --no-user"
-
-############ Lazy aliases ################### 
+# Lazy tools shortcuts
 alias lzd='lazydocker'
 alias lzg='lazygit'
 alias lzs='lazysql'
 
-############ Git aliases ###################
+# Git shortcuts
 alias gplo="git pull origin"
 alias checkout-development="gco development && gpodt"
 alias checkout-develop="gco develop && gpodp"
 alias galias="alias | grep git"
 
-############ OpsHealth #####################
+# Project-specific aliases
 alias reset-ops="make reset-migrate && make down && make up && sleep 10 && curl --location --request POST 'http://localhost:3567/recipe/dashboard/user' \
 --header 'rid: dashboard' \
 --header 'Content-Type: application/json' \
 --data-raw '{"email": "jaimish+admin@opshealth.io","password": "local123"}'"
 
-# eval $(thefuck --alias)
+#-------------------------------------------------------------------------------
+# EXTERNAL TOOLS INTEGRATION
+#-------------------------------------------------------------------------------
 
-# Message to display (set to "" for disable).
-ZSH_COMMAND_TIME_MSG="Execution time: %s sec"
-# Message color.
-ZSH_COMMAND_TIME_COLOR="yellow"
-
+# NVM (Node Version Manager)
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"
 
-# Starship
+# Starship prompt
 eval "$(starship init zsh)"
 
+# Console Ninja
 PATH=~/.console-ninja/.bin:$PATH
+
+# Atuin (shell history)
 eval "$(atuin init zsh)"
 
-# NOTE: Zoxide
+# Zoxide (smarter cd)
 eval "$(zoxide init zsh)"
 
-# NOTE: FZF
-# Set up fzf key bindings and fuzzy completion
-eval "$(fzf --zsh)"
-
-export FZF_DEFAULT_COMMAND="fd --hidden --strip-cwd-prefix --exclude .git "
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-export FZF_ALT_C_COMMAND="fd --type=d --hidden --strip-cwd-prefix --exclude .git"
-
-export FZF_DEFAULT_OPTS="--height 50% --layout=default --border --color=hl:#2dd4bf"
-
-
-# Setup fzf previews
-export FZF_CTRL_T_OPTS="--preview 'bat --color=always -n --line-range :500 {}'"
-export FZF_ALT_C_OPTS="--preview 'eza --icons=always --tree --color=always {} | head -200'"
-
+# FZF (fuzzy finder) configuration
 _fzf_comprun() {
   local command=$1
   shift
@@ -202,48 +165,61 @@ _fzf_comprun() {
     *)            fzf --preview 'bat -n --color=always {}' "$@" ;;
   esac
 }
+# Set up fzf key bindings and fuzzy completion
+source <(fzf --zsh)
 
-export EDITOR='nvim'
-export VISUAL='nvim'
-
-# Tre command - Improved tree
+# Tre command - Enhanced tree with automatic aliasing
 tre() { command tre "$@" -e && source "/tmp/tre_aliases_$USER" 2>/dev/null; }
 
-# ? Superfile - cd on quit script
+# UV (Python package installer)
+eval "$(uv generate-shell-completion zsh)"
+
+# pipx path (added on 2025-01-13)
+export PATH="$PATH:/Users/jaimish/.local/bin"
+
+#-------------------------------------------------------------------------------
+# COMMENTED/DISABLED FEATURES (for reference)
+#-------------------------------------------------------------------------------
+
+# thefuck command corrector
+# eval $(thefuck --alias)
+
+# Superfile configuration
 # spf() {
 #     os=$(uname -s)
-
 #     # Linux
 #     if [[ "$os" == "Linux" ]]; then
 #         export SPF_LAST_DIR="${XDG_STATE_HOME:-$HOME/.local/state}/superfile/lastdir"
 #     fi
-
 #     # macOS
 #     if [[ "$os" == "Darwin" ]]; then
 #         export SPF_LAST_DIR="$HOME/Library/Application Support/superfile/lastdir"
 #     fi
-
 #     command spf "$@"
-
 #     [ ! -f "$SPF_LAST_DIR" ] || {
 #         . "$SPF_LAST_DIR"
 #         rm -f -- "$SPF_LAST_DIR" > /dev/null
 #     }
 # }
 
-
-# ? ZSH Completions
+# ZSH Completions for Homebrew
 # if type brew &>/dev/null; then
-#  FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
-
-#  autoload -Uz compinit
-#  compinit
+#   FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
+#   autoload -Uz compinit
+#   compinit
 # fi
 
+# Auto-Warpify for Warp terminal
+# printf 'P$f{"hook": "SourcedRcFileForWarp", "value": { "shell": "bash", "uname": "Darwin" }}'
 
-
-# Created by `pipx` on 2025-01-13 09:53:02
-export PATH="$PATH:/Users/jaimish/.local/bin"
-
-# Auto-Warpify
-printf 'P$f{"hook": "SourcedRcFileForWarp", "value": { "shell": "bash", "uname": "Darwin" }}œ' 
+# Default FZF configuration (currently disabled)
+# export FZF_DEFAULT_COMMAND="fd --hidden --strip-cwd-prefix --exclude .git "
+# export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+# export FZF_ALT_C_COMMAND="fd --type=d --hidden --strip-cwd-prefix --exclude .git"
+# export FZF_CTRL_T_OPTS="
+#   --walker-skip .git,node_modules,target
+#   --preview 'bat -n --color=always {}'
+#   --bind 'ctrl-/:change-preview-window(down|hidden|)'"
+# export FZF_ALT_C_OPTS="--walker-skip .git,node_modules,target --preview 'tree -C {}'"
+# export FZF_DEFAULT_OPTS="--height 50% --layout=default --border --color=hl:#2dd4bf"
+# export FZF_ALT_C_OPTS="--preview 'eza --icons=always --tree --color=always {} | head -200'"
