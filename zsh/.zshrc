@@ -90,6 +90,18 @@ ZSH_COMMAND_TIME_MSG="Execution time: %s sec"
 ZSH_COMMAND_TIME_COLOR="yellow"
 
 #-------------------------------------------------------------------------------
+# AUTO SUGGESTIONS BINDINGS
+#-------------------------------------------------------------------------------
+
+source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+bindkey '^w' autosuggest-execute
+bindkey '^e' autosuggest-accept
+bindkey '^u' autosuggest-toggle
+bindkey '^L' vi-forward-word
+bindkey '^k' up-line-or-search
+bindkey '^j' down-line-or-search
+
+#-------------------------------------------------------------------------------
 # EDITOR CONFIGURATION
 #-------------------------------------------------------------------------------
 
@@ -107,10 +119,23 @@ alias tmuxconfig="nvim ~/.config/tmux/tmux.conf"
 alias srczsh="exec zsh"
 alias ohmyzsh="sudo nvim ~/.oh-my-zsh"
 alias cls="clear"
+alias cl="clear"
+
 alias n="nvim"
+alias v="vim"
+alias tls="tmux ls"
+alias t="tmux"
+alias o="fd --type f --hidden --exclude .git | fzf-tmux -p -- --reverse | xargs nvim"
+
+# HTTP requests with xh!
+alias http="xh"
 
 # File listing (using eza with enhanced formatting)
 alias ls="eza --no-filesize --long --color=always --icons=always --no-user"
+alias lt="eza --tree --level=2 --long --icons --git"
+alias ltree="eza --tree --level=2  --icons --git"
+alias la=tree
+alias cat=bat
 # Alternative: Using colorls
 # alias ls='colorls -A --sd'
 # alias sudo-ls='sudo colorls -A --sd'
@@ -126,6 +151,15 @@ alias checkout-development="gco development && gpodt"
 alias checkout-develop="gco develop && gpodp"
 alias galias="alias | grep git"
 
+function logg() {
+    git lg | fzf --ansi --no-sort \
+        --preview 'echo {} | grep -o "[a-f0-9]\{7\}" | head -1 | xargs -I % git show % --color=always' \
+        --preview-window=right:50%:wrap --height 100% \
+        --bind 'enter:execute(echo {} | grep -o "[a-f0-9]\{7\}" | head -1 | xargs -I % sh -c "git show % | nvim -c \"setlocal buftype=nofile bufhidden=wipe noswapfile nowrap\" -c \"nnoremap <buffer> q :q!<CR>\" -")' \
+        --bind 'ctrl-e:execute(echo {} | grep -o "[a-f0-9]\{7\}" | head -1 | xargs -I % sh -c "gh browse %")'
+}
+
+
 # Project-specific aliases
 alias reset-ops="make reset-migrate && make down && make up && sleep 10 && curl --location --request POST 'http://localhost:3567/recipe/dashboard/user' \
 --header 'rid: dashboard' \
@@ -133,6 +167,12 @@ alias reset-ops="make reset-migrate && make down && make up && sleep 10 && curl 
 --data-raw '{"email": "jaimish+admin@opshealth.io","password": "local123"}'"
 
 alias start-servers="tmux kill-session -t servers && tmuxp load -s servers ~/.tmuxp/ops_servers.yaml"
+
+# Navigation
+cx() { cd "$@" && l; }
+fcd() { cd "$(find . -type d -not -path '*/.*' | fzf)" && l; }
+f() { echo "$(find . -type f -not -path '*/.*' | fzf)" | pbcopy }
+fv() { nvim "$(find . -type f -not -path '*/.*' | fzf)" }
 
 #-------------------------------------------------------------------------------
 # EXTERNAL TOOLS INTEGRATION
@@ -167,6 +207,11 @@ _fzf_comprun() {
     *)            fzf --preview 'bat -n --color=always {}' "$@" ;;
   esac
 }
+
+function pkill() {
+  ps aux | fzf --height 40% --layout=reverse --prompt="Select process to kill: " | awk '{print $2}' | xargs -r sudo kill
+}
+
 # Set up fzf key bindings and fuzzy completion
 source <(fzf --zsh)
 
@@ -175,6 +220,9 @@ tre() { command tre "$@" -e && source "/tmp/tre_aliases_$USER" 2>/dev/null; }
 
 # UV (Python package installer)
 eval "$(uv generate-shell-completion zsh)"
+
+# Navi shell widget
+eval "$(navi widget zsh)"
 
 # pipx path (added on 2025-01-13)
 export PATH="$PATH:/Users/jaimish/.local/bin"
