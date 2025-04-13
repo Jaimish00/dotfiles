@@ -6,10 +6,19 @@ return {
       "nvim-telescope/telescope-file-browser.nvim",
       "cljoly/telescope-repo.nvim",
       "debugloop/telescope-undo.nvim",
+      "tsakirist/telescope-lazy.nvim",
     },
 
     opts = {
-      extensions_list = { "themes", "terms", "zoxide", "file_browser", "repo", "undo" },
+      extensions_list = {
+        "themes",
+        "lazy",
+        "terms",
+        "zoxide",
+        "file_browser",
+        "repo",
+        "undo",
+      },
       extensions = {
         zoxide = {
           mappings = {

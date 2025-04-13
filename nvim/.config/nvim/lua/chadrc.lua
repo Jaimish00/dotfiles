@@ -6,7 +6,7 @@
 local M = {}
 
 M.base46 = {
-  theme = "pastelDark",
+  theme = "everblush",
   -- transparency = true
 
   hl_override = {
@@ -55,10 +55,14 @@ M.nvdash = {
 }
 M.ui = {
   tabufline = {
+    lazyload = false,
     enabled = false,
   },
   telescope = {
     style = "bordered",
+  },
+  cmp = {
+    style = "atom_colored",
   },
 }
 
