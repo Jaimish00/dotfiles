@@ -129,6 +129,8 @@ bindkey '^j' down-line-or-search
 export EDITOR='nvim'
 export VISUAL='nvim'
 
+export BAT_THEME='Catppuccin Mocha'
+
 #-------------------------------------------------------------------------------
 # ALIASES
 #-------------------------------------------------------------------------------
@@ -159,6 +161,9 @@ alias lt="eza --tree --level=2 --long --icons --git"
 alias ltree="eza --tree --level=2  --icons --git"
 alias la=tree
 alias cat=bat
+
+# Eza config
+export EZA_CONFIG_DIR="$HOME/.config/eza"
 # Alternative: Using colorls
 # alias ls='colorls -A --sd'
 # alias sudo-ls='sudo colorls -A --sd'
@@ -184,260 +189,6 @@ alias generate-commit-message='lumen explain --diff --staged -q "Generate commit
 
 [optional body]"'
 
-# Cleanup local branches without remote tracking
-alias git-cleanup-branches='
-git_cleanup_local_branches() {
-    # Get all local branches without remote tracking
-    local branches=($(git for-each-ref --format="%(refname:short)" refs/heads/ | while read branch; do
-        if ! git rev-parse --verify "$branch@{upstream}" >/dev/null 2>&1; then
-            echo "$branch"
-        fi
-    done))
-    
-    # Filter out current branch
-    local current_branch=$(git branch --show-current)
-    branches=(${branches[@]/$current_branch})
-    
-    if [ ${#branches[@]} -eq 0 ]; then
-        echo "No local branches without remote tracking found (excluding current branch)"
-        return 0
-    fi
-    
-    echo "Found ${#branches[@]} local branches without remote tracking:"
-    echo
-    
-    for branch in "${branches[@]}"; do
-        if [ -n "$branch" ]; then
-            echo "Branch: $branch"
-            
-            # Show some info about the branch
-            local last_commit=$(git log -1 --format="%h %s" "$branch" 2>/dev/null)
-            if [ -n "$last_commit" ]; then
-                echo "Last commit: $last_commit"
-            fi
-            
-            # Ask user if they want to delete this branch
-            if gum confirm "Delete branch '\''$branch'\''?"; then
-                if git branch -D "$branch"; then
-                    echo "✓ Deleted branch: $branch"
-                else
-                    echo "✗ Failed to delete branch: $branch"
-                fi
-            else
-                echo "⏭ Skipped branch: $branch"
-            fi
-            echo
-        fi
-    done
-    
-    echo "Branch cleanup completed!"
-}
-git_cleanup_local_branches
-'
-
-# Interactive stash manager
-alias gstash='
-git_stash_manager() {
-    local action=$(gum choose "save" "list" "apply" "pop" "drop" "show" --header "What do you want to do with stash?")
-    
-    case $action in
-        "save")
-            local message=$(gum input --placeholder "Stash message (optional)")
-            if [ -n "$message" ]; then
-                git stash push -m "$message"
-            else
-                git stash push
-            fi
-            ;;
-        "list")
-            git stash list
-            ;;
-        "apply"|"pop"|"drop"|"show")
-            local stashes=$(git stash list | cut -d: -f1)
-            if [ -z "$stashes" ]; then
-                echo "No stashes found"
-                return
-            fi
-            local selected=$(echo "$stashes" | gum choose --header "Select stash:")
-            if [ -n "$selected" ]; then
-                git stash $action "$selected"
-            fi
-            ;;
-    esac
-}
-git_stash_manager
-'
-
-# Interactive file finder and editor
-alias ff='
-file_finder() {
-    local file=$(find . -type f -not -path "*/.*" -not -path "*/node_modules/*" -not -path "*/.git/*" | gum filter --placeholder "Search files...")
-    
-    if [ -n "$file" ]; then
-        local action=$(gum choose "edit" "view" "copy-path" --header "What to do with $file?")
-        case $action in
-            "edit")
-                ${EDITOR:-vim} "$file"
-                ;;
-            "view")
-                cat "$file" | gum pager
-                ;;
-            "copy-path")
-                echo "$file" | pbcopy  # macOS clipboard
-                echo "Path copied to clipboard: $file"
-                ;;
-        esac
-    fi
-}
-file_finder
-'
-
-# Docker container manager
-alias docks='
-docker_manager() {
-    local action=$(gum choose "containers" "images" "compose" "cleanup" --header "Docker management:")
-    
-    case $action in
-        "containers")
-            # Get container names only, no table formatting
-            local container_names=$(docker ps -a --format "{{.Names}}")
-            if [ -z "$container_names" ]; then
-                echo "No containers found"
-                return
-            fi
-            
-            # Create a formatted list for display
-            local container_info=$(docker ps -a --format "{{.Names}} ({{.Status}}) [{{.Image}}]")
-            local selected=$(echo "$container_info" | gum choose --header "Select container:")
-            
-            if [ -n "$selected" ]; then
-                # Extract just the container name (everything before the first space)
-                local container_name=$(echo "$selected" | cut -d" " -f1)
-                echo "Selected container: $container_name"
-                
-                local container_action=$(gum choose "start" "stop" "restart" "logs" "exec" "remove" --header "Action for $container_name:")
-                case $container_action in
-                    "exec")
-                        # Try bash first, fallback to sh
-                        docker exec -it "$container_name" /bin/bash 2>/dev/null || docker exec -it "$container_name" /bin/sh
-                        ;;
-                    "logs")
-                        docker logs -f "$container_name"
-                        ;;
-                    "remove")
-                        if gum confirm "Remove container $container_name?"; then
-                            docker rm -f "$container_name"
-                        fi
-                        ;;
-                    *)
-                        docker "$container_action" "$container_name"
-                        ;;
-                esac
-            fi
-            ;;
-        "images")
-            # Get image info without table headers
-            local image_list=$(docker images --format "{{.Repository}}:{{.Tag}} ({{.Size}}) [{{.CreatedAt}}]")
-            if [ -z "$image_list" ]; then
-                echo "No images found"
-                return
-            fi
-            
-            local selected=$(echo "$image_list" | gum choose --header "Select image:")
-            if [ -n "$selected" ]; then
-                # Extract image name (everything before the first space/parenthesis)
-                local image_name=$(echo "$selected" | cut -d" " -f1)
-                echo "Selected image: $image_name"
-                
-                local image_action=$(gum choose "remove" "inspect" "history" --header "Action for $image_name:")
-                case $image_action in
-                    "remove")
-                        if gum confirm "Remove image $image_name?"; then
-                            docker rmi "$image_name"
-                        fi
-                        ;;
-                    "inspect")
-                        docker inspect "$image_name" | gum pager
-                        ;;
-                    "history")
-                        docker history "$image_name"
-                        ;;
-                esac
-            fi
-            ;;
-        "compose")
-            # Check if docker-compose.yml exists
-            if [ ! -f "docker-compose.yml" ] && [ ! -f "docker-compose.yaml" ] && [ ! -f "compose.yml" ] && [ ! -f "compose.yaml" ]; then
-                echo "No docker-compose file found in current directory"
-                return
-            fi
-            
-            local compose_action=$(gum choose "up" "down" "restart" "logs" "ps" --header "Docker Compose:")
-            case $compose_action in
-                "up")
-                    if gum confirm "Run in detached mode?"; then
-                        docker compose up -d
-                    else
-                        docker compose up
-                    fi
-                    ;;
-                "logs")
-                    docker compose logs -f
-                    ;;
-                "ps")
-                    docker compose ps
-                    ;;
-                *)
-                    docker compose "$compose_action"
-                    ;;
-            esac
-            ;;
-        "cleanup")
-            echo "Docker cleanup options:"
-            if gum confirm "Remove stopped containers?"; then
-                docker container prune -f
-                echo "✓ Removed stopped containers"
-            fi
-            if gum confirm "Remove unused images?"; then
-                docker image prune -f
-                echo "✓ Removed unused images"
-            fi
-            if gum confirm "Remove unused networks?"; then
-                docker network prune -f
-                echo "✓ Removed unused networks"
-            fi
-            if gum confirm "Remove unused volumes? (WARNING: This may delete data!)"; then
-                docker volume prune -f
-                echo "✓ Removed unused volumes"
-            fi
-            if gum confirm "Remove build cache?"; then
-                docker builder prune -f
-                echo "✓ Removed build cache"
-            fi
-            ;;
-    esac
-}
-docker_manager
-'
-
-# Process killer with search
-alias pkill-interactive='
-process_killer() {
-    local processes=$(ps aux | grep -v "grep\|ps aux" | awk "{print \$2, \$11}" | tail -n +2)
-    local selected=$(echo "$processes" | gum filter --placeholder "Search processes to kill...")
-    
-    if [ -n "$selected" ]; then
-        local pid=$(echo "$selected" | awk "{print \$1}")
-        local process_name=$(echo "$selected" | cut -d" " -f2-)
-        
-        if gum confirm "Kill process $pid ($process_name)?"; then
-            kill "$pid" && echo "Process $pid killed" || echo "Failed to kill process $pid"
-        fi
-    fi
-}
-process_killer
-'
-
 function logg() {
     git lg | fzf --ansi --no-sort \
         --preview 'echo {} | grep -o "[a-f0-9]\{7\}" | head -1 | xargs -I % git show % --color=always' \
@@ -445,6 +196,33 @@ function logg() {
         --bind 'enter:execute(echo {} | grep -o "[a-f0-9]\{7\}" | head -1 | xargs -I % sh -c "git show % | nvim -c \"setlocal buftype=nofile bufhidden=wipe noswapfile nowrap\" -c \"nnoremap <buffer> q :q!<CR>\" -")' \
         --bind 'ctrl-e:execute(echo {} | grep -o "[a-f0-9]\{7\}" | head -1 | xargs -I % sh -c "gh browse %")'
 }
+
+# Stow a config directory into ~/dotfiles
+dotstow() {
+  local name=$1
+  if [[ -z "$name" ]]; then
+    name=$(gum input --placeholder "Enter the name of the directory to stow")
+  fi
+
+  local src="$HOME/.config/$name"
+  local dst="$HOME/dotfiles/$name/.config/$name"
+
+  if [[ ! -d "$src" ]]; then
+    gum style --foreground 196 "No config found at $src"
+    return 1
+  fi
+
+  gum confirm "Move $src into $dst and stow it?" || return 1
+
+  mkdir -p "$dst"
+  mv "$src"/* "$dst"/
+  rmdir "$src" 2>/dev/null || true
+
+  (cd ~/dotfiles && stow "$name")
+
+  gum style --foreground 82 "✔ Successfully stowed $name"
+}
+
 
 # Scan any docker image for vulnerabilities using Trivy
 scanimg() {
@@ -539,8 +317,6 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"
 
-# Starship prompt
-eval "$(starship init zsh)"
 
 # Console Ninja
 PATH=~/.console-ninja/.bin:$PATH
@@ -551,7 +327,20 @@ eval "$(atuin init zsh)"
 # Zoxide (smarter cd)
 eval "$(zoxide init zsh)"
 
+# Starship prompt
+export STARSHIP_CONFIG="$HOME/.config/starship/starship.toml"
+eval "$(starship init zsh)"
+
 # FZF (fuzzy finder) configuration
+
+# FZF Catppuccin theme
+export FZF_DEFAULT_OPTS=" \
+--color=bg+:#313244,bg:#1E1E2E,spinner:#F5E0DC,hl:#F38BA8 \
+--color=fg:#CDD6F4,header:#F38BA8,info:#CBA6F7,pointer:#F5E0DC \
+--color=marker:#B4BEFE,fg+:#CDD6F4,prompt:#CBA6F7,hl+:#F38BA8 \
+--color=selected-bg:#45475A \
+--color=border:#6C7086,label:#CDD6F4"
+
 _fzf_comprun() {
   local command=$1
   shift
@@ -630,7 +419,6 @@ export DISABLE_AUTO_TITLE='true'
 #   --preview 'bat -n --color=always {}'
 #   --bind 'ctrl-/:change-preview-window(down|hidden|)'"
 # export FZF_ALT_C_OPTS="--walker-skip .git,node_modules,target --preview 'tree -C {}'"
-# export FZF_DEFAULT_OPTS="--height 50% --layout=default --border --color=hl:#2dd4bf"
 # export FZF_ALT_C_OPTS="--preview 'eza --icons=always --tree --color=always {} | head -200'"
 # The following lines have been added by Docker Desktop to enable Docker CLI completions.
 fpath=(/Users/jaimish/.docker/completions $fpath)
