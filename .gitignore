@@ -1,2 +1,13 @@
 .DS_Store
 .vscode
+.cursor/
+.cursorrules/
+**/.DS_Store
+
+
+jupyter/.jupyter/lab/workspaces/
+jupyter/.jupyter/serverconfig/
+jupyter/migrated
+
+superfile/Library/Application Support/superfile/lastCheckVersion
+superfile/Library/Application Support/superfile/superfile.log
