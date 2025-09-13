@@ -82,7 +82,8 @@ This is a collection of dotfiles for various use cases.
 ## Screenshots
 
 ### starship
-<img width="500" height="70" alt="image" src="https://github.com/user-attachments/assets/7d106926-2e0f-404d-8cbe-47985bc05755" />
+<img width="500" height="111" alt="image" src="https://github.com/user-attachments/assets/859ae7bd-e870-49f2-bcb7-4019dc30bc0f" />
+
 
 ### atuin
 <img width="500" height="774" alt="image" src="https://github.com/user-attachments/assets/37e2053f-8b22-4b89-a9dc-9f72d3b377cb" />
