@@ -71,3 +71,35 @@ This is a collection of dotfiles for various use cases.
    # If you face conflict, try with --adopt flag
    # stow --adopt tmux
    ```
+
+## Stowing and Unstowing using Aliases
+
+   ```
+   dotstow eza
+   dotunstow lazyeza
+   ```
+
+## Screenshots
+
+### starship
+<img width="500" height="70" alt="image" src="https://github.com/user-attachments/assets/7d106926-2e0f-404d-8cbe-47985bc05755" />
+
+### atuin
+<img width="500" height="774" alt="image" src="https://github.com/user-attachments/assets/37e2053f-8b22-4b89-a9dc-9f72d3b377cb" />
+
+### bpytop
+<img width="500" height="945" alt="image" src="https://github.com/user-attachments/assets/6fcfdd04-56d3-42da-95b4-63cac5aa1411" />
+
+
+### Jupyter Lab
+<img width="500" height="944" alt="image" src="https://github.com/user-attachments/assets/8856237d-83c9-474c-bd71-55f77d939f31" />
+
+### Superfile
+<img width="500" height="942" alt="image" src="https://github.com/user-attachments/assets/35d925a0-960b-4688-aede-ea0d5eee6701" />
+
+### Bat
+<img width="500" height="414" alt="image" src="https://github.com/user-attachments/assets/bbb5ee0b-22c6-4b7e-b2bd-2833d7332ec7" />
+
+### Tmux
+<img width="500" height="899" alt="image" src="https://github.com/user-attachments/assets/fb3517f9-8337-41ca-8b53-bc2eadce219f" />
+
