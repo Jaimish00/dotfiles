@@ -99,7 +99,7 @@ format = "[$symbol($version )]($style)"
 # Python
 [python]
 style = "teal"
-format = '[${symbol}${pyenv_prefix}(${version} )(\($virtualenv\) )]($style)'
+format = '[ ${symbol}${pyenv_prefix}(${version} )(\($virtualenv\) )]($style)'
 symbol = " "
 python_binary = 'python3'
 
@@ -116,16 +116,9 @@ symbol = ' '
 # -------------------------------
 # Cloud & Containers
 # -------------------------------
-# [aws]
-# # disabled = false
-# symbol = ' '
-# style = 'peach'
-# format = '[$symbol(${profile:-default} )(\[$duration\] )]($style)'
-# # force_display = false
-
 [aws]
 disabled = false
-symbol = " "         # set the symbol here
+symbol = " "
 style = "peach"
 
 # Now put symbol+profile in the same conditional group

@@ -9,7 +9,7 @@ update_check = true
 search_mode = "fuzzy"
 
 ## Which style to use. Possible values: auto, full and compact.
-style = "full"
+style = "auto"
 
 ## Invert the UI - put the search bar at the top.
 invert = true
