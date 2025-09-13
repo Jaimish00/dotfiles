@@ -4,6 +4,8 @@
 .cursorrules/
 **/.DS_Store
 
+.ipynb_checkpoints/
+
 
 jupyter/.jupyter/lab/workspaces/
 jupyter/.jupyter/serverconfig/
