@@ -1,0 +1,46 @@
+## General
+mouse-hide-while-typing = true
+window-padding-balance = true
+# window-decoration = false
+unfocused-split-opacity = 0.2
+fullscreen = true
+auto-update = download
+
+## Macos
+macos-titlebar-proxy-icon = hidden
+macos-icon = custom-style
+macos-icon-frame = plastic
+macos-icon-ghost-color = FFFFFF
+macos-icon-screen-color = 000000
+
+## Theme
+theme = seti
+
+## Background
+background-opacity = 1
+background-blur-radius = 20
+split-divider-color = #314158
+
+## Keybinds
+# keybind = ctrl+z=close_surface
+# keybind = ctrl+d=new_split:right
+keybind =  cmd+s=toggle_quick_terminal
+
+## Font
+font-family = "MesloLGS Nerd Font Mono"
+font-size = 14
+font-thicken = false
+
+## Clipboard
+clipboard-read = "allow"
+clipboard-paste-protection = false
+clipboard-trim-trailing-spaces = true
+
+## Cursor
+cursor-opacity = 0.6
+cursor-style-blink = false
+selection-background = #303233
+selection-foreground = #cacecd
+
+custom-shader = ./cursor-shaders/shaders/cursor_smear.glsl
+custom-shader = ./cursor-shaders/shaders/cursor-style-blink.glsl
