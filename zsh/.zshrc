@@ -223,6 +223,33 @@ dotstow() {
   gum style --foreground 82 "✔ Successfully stowed $name"
 }
 
+# Unstow a config directory from ~/dotfiles
+dotunstow() {
+  local name=$1
+  if [[ -z "$name" ]]; then
+    name=$(gum input --placeholder "Enter the name of the directory to unstow")
+  fi
+
+  local src="$HOME/dotfiles/$name/.config/$name"
+  local dst="$HOME/.config/$name"
+
+  if [[ ! -d "$src" ]]; then
+    gum style --foreground 196 "No stowed config found at $src"
+    return 1
+  fi
+
+  gum confirm "Unstow $name and move it back to $dst?" || return 1
+
+  (cd ~/dotfiles && stow -D "$name")
+
+  mkdir -p "$dst"
+  mv "$src"/* "$dst"/
+  rmdir "$src" 2>/dev/null || true
+
+  gum style --foreground 82 "✔ Successfully unstowed $name"
+}
+
+
 
 # Scan any docker image for vulnerabilities using Trivy
 scanimg() {

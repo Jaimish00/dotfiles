@@ -11,3 +11,7 @@ jupyter/migrated
 
 superfile/Library/Application Support/superfile/lastCheckVersion
 superfile/Library/Application Support/superfile/superfile.log
+
+bpytop/.config/bpytop/error.log
+
+tmux/.config/tmux/plugins/extrakto
