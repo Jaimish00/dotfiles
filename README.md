@@ -16,6 +16,7 @@ This is a collection of dotfiles for various use cases.
 - `bat` : Bat syntax-highlighting theme and config
 - `bpytop` : Bpytop system monitor configuration and themes
 - `ghostty` : Ghostty terminal emulator configuration
+- `television`: General purpose fuzzy finder
 
 ## Setup
 
