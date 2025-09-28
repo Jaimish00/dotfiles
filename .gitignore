@@ -1,12 +1,15 @@
+#------------------------------------------------------------------------------
+# General system files
+#------------------------------------------------------------------------------
 .DS_Store
+**/.DS_Store
 .vscode
 .cursor/
 .cursorrules/
-**/.DS_Store
 
-.ipynb_checkpoints/
-
-# ignore pycache
+#------------------------------------------------------------------------------
+# Python artifacts
+#------------------------------------------------------------------------------
 __pycache__/
 *.pyc
 *.pyo
@@ -14,14 +17,33 @@ __pycache__/
 *.pyw
 *.pyz
 
-
+#------------------------------------------------------------------------------
+# Jupyter Notebook
+#------------------------------------------------------------------------------
+.ipynb_checkpoints/
 jupyter/.jupyter/lab/workspaces/
 jupyter/.jupyter/serverconfig/
 jupyter/migrated
 
+#------------------------------------------------------------------------------
+# Superfile app logs and state
+#------------------------------------------------------------------------------
 superfile/Library/Application Support/superfile/lastCheckVersion
 superfile/Library/Application Support/superfile/superfile.log
 
+#------------------------------------------------------------------------------
+# Bpytop logs
+#------------------------------------------------------------------------------
 bpytop/.config/bpytop/error.log
 
+#------------------------------------------------------------------------------
+# Tmux plugins
+#------------------------------------------------------------------------------
 tmux/.config/tmux/plugins/extrakto
+
+#------------------------------------------------------------------------------
+# K9s logs and runtime files
+#------------------------------------------------------------------------------
+k9s/Library/Application Support/k9s/clusters
+k9s/Library/Application Support/k9s/screen-dumps
+k9s/Library/Application Support/k9s/k9s.log

@@ -1,0 +1,12 @@
+# yaml-language-server: $schema=https://json.schemastore.org/lazydocker.json
+
+gui:
+  returnImmediately: true
+  expandFocusedSidePanel: true
+  showBottomLine: false
+  containerStatusHealthStyle: "icon"
+  theme:
+    activeBorderColor:
+     - blue
+    selectedLineBgColor:
+     - black

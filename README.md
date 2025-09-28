@@ -11,6 +11,9 @@ This is a collection of dotfiles for various use cases.
 - `jupyter` : Jupyter Notebook/Lab configuration
 - `warp` : Warp terminal configuration
 - `superfile` : Superfile configuration
+- `lazygit` : Lazygit configuration
+- `lazydocker` : Lazydocker configuration
+- `k9s` : K9s configuration
 - `wallpapers` : Favorite wallpapers
 - `tmux` : Tmux configuration and sessions
 - `bat` : Bat syntax-highlighting theme and config
