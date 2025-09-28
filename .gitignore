@@ -6,6 +6,14 @@
 
 .ipynb_checkpoints/
 
+# ignore pycache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pyw
+*.pyz
+
 
 jupyter/.jupyter/lab/workspaces/
 jupyter/.jupyter/serverconfig/
