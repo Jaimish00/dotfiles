@@ -2,14 +2,16 @@ lastupdatecheck: 0
 recentrepos:
     - /Users/jaimish/dotfiles
     - /Users/jaimish/Work/backend
-    - /Users/jaimish/Work/minerva-agent
+    - /Users/jaimish/Work/workflow-service
     - /Users/jaimish/Work/frontend
+    - /Users/jaimish/Work/minerva-agent
     - /Users/jaimish/Work/exploration/a2a_agentic_sre/elastic-demo
     - /Users/jaimish/Work/agentserver
     - /Users/jaimish/Work/metrics-server
 startuppopupversion: 5
 lastversion: 0.50.0
 customcommandshistory:
+    - qa
     - 'fix: Comment out OTEL recording statement'
     - q
 hidecommandlog: false
