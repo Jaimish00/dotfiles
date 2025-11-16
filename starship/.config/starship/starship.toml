@@ -15,7 +15,6 @@ $git_status\
 $git_metrics\
 $fill\
 $docker_context\
-$helm\
 $kubernetes\
 $golang\
 $nodejs\
