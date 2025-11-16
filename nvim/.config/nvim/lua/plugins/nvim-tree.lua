@@ -31,8 +31,11 @@ return {
       },
       renderer = {
         root_folder_modifier = ":t",
-        -- These icons are visible when you install web-devicons
         icons = {
+          git_placement = "after",
+          show = {
+            hidden = false,
+          },
           glyphs = {
             default = "",
             symlink = "",
@@ -58,6 +61,31 @@ return {
           },
         },
       },
+      filters = {
+        custom = {},
+        dotfiles = false,
+      },
+      live_filter = {
+        prefix = "[FILTER]: ",
+        always_show_folders = true, -- Show folders even if they don't match, but their children might
+      },
     },
+    config = function(_, opts)
+      require("nvim-tree").setup(opts)
+
+      local api = require("nvim-tree.api")
+
+      -- Map 'f' to search_node which searches all nodes including collapsed ones
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = "NvimTree",
+        callback = function()
+          vim.keymap.set("n", "f", api.tree.search_node, {
+            buffer = true,
+            desc = "Search node (deep search)",
+            silent = true,
+          })
+        end,
+      })
+    end,
   },
 }

@@ -7,6 +7,9 @@ return {
         breadcrumb = {
           enabled = true,
         },
+        ui = {
+          code_action = "💡",
+        },
       }
     end,
   },
