@@ -16,6 +16,14 @@ function current_branch() {
   git_current_branch
 }
 
+# The name of the current branch (from OMZ lib/git.zsh)
+function git_current_branch() {
+  local ref
+  ref=$(command git symbolic-ref --quiet --short HEAD 2>/dev/null) || \
+  ref=$(command git rev-parse --short HEAD 2>/dev/null) || return
+  echo ${ref#refs/heads/}
+}
+
 # Check for develop and similarly named branches
 function git_develop_branch() {
   command git rev-parse --git-dir &>/dev/null || return
@@ -34,16 +42,16 @@ function git_develop_branch() {
 # Get the default branch name from common branch names or fallback to remote HEAD
 function git_main_branch() {
   command git rev-parse --git-dir &>/dev/null || return
-  
+
   local remote ref
-  
+
   for ref in refs/{heads,remotes/{origin,upstream}}/{main,trunk,mainline,default,stable,master}; do
     if command git show-ref -q --verify $ref; then
       echo ${ref:t}
       return 0
     fi
   done
-  
+
   # Fallback: try to get the default branch from remote HEAD symbolic refs
   for remote in origin upstream; do
     ref=$(command git rev-parse --abbrev-ref $remote/HEAD 2>/dev/null)

@@ -7,9 +7,9 @@
 # no directories are passed
 function ofd {
   if (( ! $# )); then
-    open_command $PWD
+    open "$PWD"
   else
-    open_command $@
+    open "$@"
   fi
 }
 

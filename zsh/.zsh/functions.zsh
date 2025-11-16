@@ -94,27 +94,39 @@ create-opsdb() {
 }
 
 create-fresh-dbs() {
-  auth_db=$(gum input --placeholder "Enter name for auth DB" --prompt "authdb > ")
-  if [ -z "$auth_db" ]; then
-    gum style --foreground 1 "❌ Auth DB name is required. Aborting."
+  # Check if Docker containers are running
+  if ! docker ps --format '{{.Names}}' | grep -q 'authdb'; then
+    gum style --foreground 1 "❌ Docker container 'authdb' is not running. Aborting."
     return 1
   fi
 
-  ops_db=$(gum input --placeholder "Enter name for ops DB" --prompt "opsdb > ")
-  if [ -z "$ops_db" ]; then
-    gum style --foreground 1 "❌ Ops DB name is required. Aborting."
+  if ! docker ps --format '{{.Names}}' | grep -q 'postgresql-opshealth'; then
+    gum style --foreground 1 "❌ Docker container 'postgresql-opshealth' is not running. Aborting."
     return 1
   fi
 
+  # Prompt for release number
+  release_number=$(gum input --placeholder "Enter release number" --prompt "release # > ")
+  if [ -z "$release_number" ]; then
+    gum style --foreground 1 "❌ Release number is required. Aborting."
+    return 1
+  fi
+
+  # Generate DB names
+  auth_db="supertokens-rel-$release_number"
+  ops_db="opshealth-rel-$release_number"
+
+  # Create auth DB
   gum spin --title "Creating auth DB: $auth_db" -- \
     docker exec -it authdb psql -U opshealth_user -c "CREATE DATABASE \"$auth_db\";"
 
-  gum style --foreground 10 "✓ Created auth DB: $auth_db"
+  gum style --foreground 10 "SUPERTOKENS_DATABASE_NAME=\"$auth_db\""
 
+  # Create ops DB
   gum spin --title "Creating ops DB: $ops_db" -- \
     docker exec -it postgresql-opshealth psql -U postgres -c "CREATE DATABASE \"$ops_db\";"
 
-  gum style --foreground 10 "✓ Created ops DB: $ops_db"
+  gum style --foreground 10 "DATABASE_NAME=\"$ops_db\""
 
   gum style --foreground 212 --bold --border double --padding "1 2" "🎉 Databases created successfully!"
 }

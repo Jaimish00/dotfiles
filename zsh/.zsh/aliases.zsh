@@ -3,9 +3,19 @@ alias cls="clear"
 alias cl="clear"
 alias srczsh="exec zsh"
 
-# Editor shortcuts
+# App shortcuts
 alias n="nvim"
 alias v="vim"
+alias c="cursor"
+
+# NPM shortcuts
+alias nrd="npm run dev"
+alias ni="npm install"
+
+# Make shortcuts
+alias mu="make up"
+alias md="make down"
+alias mb="make build"
 
 # Configuration shortcuts
 alias zshconfig="sudo nvim ~/.zshrc"
@@ -21,6 +31,7 @@ alias ls="eza --no-filesize --long --color=always --icons=always --no-user"
 alias lt="eza --tree --level=2 --long --icons --git"
 alias ltree="eza --tree --level=2 --icons --git"
 alias la="tree"
+alias lsa="ls -a"
 
 # HTTP requests
 alias http="xh"
@@ -40,6 +51,7 @@ alias t="tmux"
 alias tls="tmux ls"
 
 # Git shortcuts
+alias stash="lazygit stash"
 alias gplo="git pull origin"
 alias checkout-development="gco development && gpodt"
 alias checkout-develop="gco develop && gpodp"

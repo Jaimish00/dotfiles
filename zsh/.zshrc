@@ -25,6 +25,13 @@ source ~/.zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 # zsh-autosuggestions
 source ~/.zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 
+# zsh autopair
+source ~/.zsh/plugins/zsh-autopair/autopair.zsh
+autopair-init
+
+# zsh-autocomplete
+# source ~/.zsh/plugins/zsh-autocomplete/zsh-autocomplete.plugin.zsh
+
 # you-should-use (brew specific)
 source $HOMEBREW_PREFIX/share/zsh-you-should-use/you-should-use.plugin.zsh
 

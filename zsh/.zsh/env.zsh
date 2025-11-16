@@ -4,9 +4,11 @@
 
 # Add custom paths
 export PATH="$HOME/bin:$PATH"
-
+export PATH="$HOME/.zsh/plugins/git-extra-commands/bin:$PATH"
+export PATH="$PATH:~/Users/jaimish/.temporalio/bin"
 # Editor
-export EDITOR="code"
+export EDITOR="nvim"
+export VISUAL="nvim"
 
 # Language
 export LANG="en_US.UTF-8"
