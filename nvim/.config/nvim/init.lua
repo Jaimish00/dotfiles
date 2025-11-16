@@ -32,6 +32,28 @@ dofile(vim.g.base46_cache .. "statusline")
 require "options"
 require "nvchad.autocmds"
 
+-- Helper function to get session file path for current directory
+local function get_session_file()
+  local cwd = vim.fn.getcwd()
+  local session_dir = vim.fn.expand(vim.fn.stdpath("state") .. "/sessions/")
+  local session_name = cwd:gsub("/", "%%"):gsub(" ", "%%20")
+  return session_dir .. session_name .. ".vim"
+end
+
+-- Auto-restore session early if it exists (before dashboard loads)
+vim.api.nvim_create_autocmd("VimEnter", {
+  callback = function()
+    if vim.fn.argc() == 0 then
+      local session_file = get_session_file()
+      if vim.fn.filereadable(session_file) == 1 then
+        vim.cmd("silent! source " .. vim.fn.fnameescape(session_file))
+      end
+    end
+  end,
+  nested = true,
+  once = true,
+})
+
 vim.schedule(function()
   require "mappings"
 end)

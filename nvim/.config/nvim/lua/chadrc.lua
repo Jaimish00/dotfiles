@@ -6,8 +6,8 @@
 local M = {}
 
 M.base46 = {
-  theme = "everblush",
-  -- transparency = true
+  theme = "vesper",
+  -- transparency = true,
 
   hl_override = {
     Comment = { italic = true },
@@ -16,7 +16,21 @@ M.base46 = {
 }
 
 M.nvdash = {
-  load_on_startup = true,
+  load_on_startup = function()
+    -- Check if a persistence.nvim session exists for current directory
+    -- Only show dashboard if no session exists
+    if vim.fn.argc() == 0 then
+      local cwd = vim.fn.getcwd()
+      local session_dir = vim.fn.expand(vim.fn.stdpath "state" .. "/sessions/")
+      local session_name = cwd:gsub("/", "%%"):gsub(" ", "%%20")
+      local session_file = session_dir .. session_name .. ".vim"
+
+      if vim.fn.filereadable(session_file) == 1 then
+        return false -- Don't load dashboard if session exists
+      end
+    end
+    return true
+  end,
   header = {
     "                                                                       ",
     "                                                                     ",
@@ -30,7 +44,7 @@ M.nvdash = {
     "                                                                       ",
   },
   buttons = {
-    { txt = "🔍 Find File", keys = "ff", cmd = "Telescope find_files" },
+    { txt = "🔍 Find File", keys = "ff", cmd = "lua require('telescope.builtin').find_files()" },
     { txt = "♻️  Recent Files", keys = "fo", cmd = "Telescope oldfiles" },
     { txt = "💬 Find Word", keys = "fw", cmd = "Telescope live_grep" },
     { txt = "🚀 Change Current Directory", keys = "zi", cmd = "Telescope zoxide list" },
